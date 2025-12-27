@@ -1,12 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>数智时代幼儿拼音教育平台</title>
+    <style>
+        /* 基础样式美化，适配幼儿教育视觉风格 */
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+        h1 {
+            color: #ff69b4;
+            text-align: center;
+            border-bottom: 2px solid #4169e1;
+            padding-bottom: 10px;
+        }
+        .module {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        .btn-video {
+            background-color: #4169e1;
+            color: #fff;
+        }
+        .btn-practice {
+            background-color: #32cd32;
+            color: #fff;
+        }
+        .btn-material {
+            background-color: #ff8c00;
+            color: #fff;
+        }
+        .practice-area {
+            margin-top: 15px;
+            padding: 15px;
+            border: 1px dashed #ccc;
+            border-radius: 5px;
+            display: none;
+        }
+        .material-tips {
+            color: #ff4500;
+            font-weight: bold;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <h1>幼儿拼音学习资源</h1>
-    <p>点击获取拼音教学视频：拼音教学视频</p >
-    <p>数智工具推荐：豆包AIGC（生成拼音练习素材）</p >
+
+    <!-- 拼音教学视频模块 -->
+    <div class="module">
+        <h3>拼音教学视频</h3>
+        <p>点击下方按钮，观看幼儿拼音启蒙教学视频</p >
+        <button class="btn btn-video" id="videoBtn">打开拼音教学视频</button>
+    </div>
+
+    <!-- 拼音练习模块 -->
+    <div class="module">
+        <h3>拼音互动练习</h3>
+        <p>点击下方按钮，开始拼音读写小练习</p >
+        <button class="btn btn-practice" id="practiceBtn">启动拼音练习</button>
+        <div class="practice-area" id="practiceArea">
+            <p>📝 练习1：请在下方输入框中填写对应的拼音韵母</p >
+            <p>b + ___ = ba → <input type="text" id="input1" placeholder="输入韵母"> <button onclick="checkAnswer('input1', 'a')">提交答案</button></p >
+            <p>p + ___ = po → <input type="text" id="input2" placeholder="输入韵母"> <button onclick="checkAnswer('input2', 'o')">提交答案</button></p >
+            <p id="answerTips"></p >
+        </div>
+    </div>
+
+    <!-- 数智工具素材生成模块 -->
+    <div class="module">
+        <h3>数智工具素材生成</h3>
+        <p>豆包AIGC：一键生成幼儿拼音练习素材</p >
+        <button class="btn btn-material" id="materialBtn">生成拼音练习素材</button>
+        <div class="material-tips" id="materialTips">
+            素材生成中...可前往豆包AIGC平台获取定制化拼音卡片、拼读儿歌等资源哦！
+        </div>
+    </div>
+
+    <script>
+        // 视频跳转功能
+        const videoBtn = document.getElementById('videoBtn');
+        videoBtn.addEventListener('click', function() {
+            // 可替换为实际的拼音教学视频链接
+            window.open('https://www.bilibili.com/video/BV1xx411X77o/', '_blank');
+        });
+
+        // 拼音练习模块显示/隐藏
+        const practiceBtn = document.getElementById('practiceBtn');
+        const practiceArea = document.getElementById('practiceArea');
+        practiceBtn.addEventListener('click', function() {
+            practiceArea.style.display = practiceArea.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // 练习答案验证
+        function checkAnswer(inputId, correctAnswer) {
+            const input = document.getElementById(inputId);
+            const tips = document.getElementById('answerTips');
+            if (input.value.toLowerCase() === correctAnswer) {
+                tips.textContent = '✅ 回答正确！真棒～';
+                tips.style.color = '#32cd32';
+            } else {
+                tips.textContent = '❌ 答案不对，再试试吧！';
+                tips.style.color = '#ff4500';
+            }
+            input.value = '';
+        }
+
+        // 素材生成提示
+        const materialBtn = document.getElementById('materialBtn');
+        const materialTips = document.getElementById('materialTips');
+        materialBtn.addEventListener('click', function() {
+            materialTips.style.display = 'block';
+            setTimeout(() => {
+                materialTips.style.display = 'none';
+            }, 5000); // 5秒后隐藏提示
+        });
+    </script>
 </body>
 </html>
