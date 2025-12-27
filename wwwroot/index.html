@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>数智时代幼儿拼音教育平台</title>
     <style>
+        /* 基础样式美化，适配幼儿教育视觉风格 */
         body {
             font-family: "Microsoft YaHei", sans-serif;
             max-width: 1000px;
@@ -46,12 +47,6 @@
             background-color: #ff8c00;
             color: #fff;
         }
-        .btn-audio {
-            background-color: #9932cc;
-            color: #fff;
-            padding: 5px 10px;
-            font-size: 14px;
-        }
         .practice-area {
             margin-top: 15px;
             padding: 15px;
@@ -59,23 +54,10 @@
             border-radius: 5px;
             display: none;
         }
-        .material-preview {
-            margin-top: 15px;
-            padding: 15px;
-            border: 2px solid #ff8c00;
-            border-radius: 5px;
-            background-color: #fff8e1;
-            display: none;
-        }
-        .audio-module {
-            margin-top: 15px;
-            padding: 10px;
-            background-color: #f8f8f8;
-            border-radius: 5px;
-        }
-        .loading {
-            color: #ff8c00;
+        .material-tips {
+            color: #ff4500;
             font-weight: bold;
+            margin-top: 10px;
             display: none;
         }
     </style>
@@ -90,19 +72,7 @@
         <button class="btn btn-video" id="videoBtn">打开拼音教学视频</button>
     </div>
 
-    <!-- 拼音发音播放模块 -->
-    <div class="module">
-        <h3>拼音标准发音听读</h3>
-        <p>点击按钮播放对应拼音的标准读音</p >
-        <div class="audio-module">
-            <span>b：</span><button class="btn btn-audio" onclick="playAudio('b')">播放读音</button>
-            <span>p：</span><button class="btn btn-audio" onclick="playAudio('p')">播放读音</button>
-            <span>m：</span><button class="btn btn-audio" onclick="playAudio('m')">播放读音</button>
-            <span>f：</span><button class="btn btn-audio" onclick="playAudio('f')">播放读音</button>
-        </div>
-    </div>
-
-    <!-- 拼音互动练习模块 -->
+    <!-- 拼音练习模块 -->
     <div class="module">
         <h3>拼音互动练习</h3>
         <p>点击下方按钮，开始拼音读写小练习</p >
@@ -120,15 +90,8 @@
         <h3>数智工具素材生成</h3>
         <p>豆包AIGC：一键生成幼儿拼音练习素材</p >
         <button class="btn btn-material" id="materialBtn">生成拼音练习素材</button>
-        <div class="loading" id="loadingTips">素材生成中...请稍候</div>
-        <!-- 素材预览区域 -->
-        <div class="material-preview" id="materialPreview">
-            <h4>✅ 豆包AIGC生成的拼音练习素材示例</h4>
-            <p>1. <strong>拼音卡片</strong>：b-p-m-f声母卡通卡片（配动物图案：b-白兔、p-爬坡、m-木马、f-风车）</p >
-            <p>2. <strong>拼读儿歌</strong>：《bpmf儿歌》——“白兔白兔bbb，爬坡爬坡ppp，木马木马mmm，风车风车fff”</p >
-            <p>3. <strong>填空练习</strong>：请为下列声母搭配韵母组成音节：b+()=bi、p+()=pi、m+()=mi、f+()=fi</p >
-            <p>4. <strong>书写口诀</strong>：b字写法——“竖右弯，下半圆，写好b字真简单”</p >
-            <p><a href=" " target="_blank">点击前往豆包AIGC平台获取定制化素材</a ></p >
+        <div class="material-tips" id="materialTips">
+            素材生成中...可前往豆包AIGC平台获取定制化拼音卡片、拼读儿歌等资源哦！
         </div>
     </div>
 
@@ -136,17 +99,40 @@
         // 视频跳转功能
         const videoBtn = document.getElementById('videoBtn');
         videoBtn.addEventListener('click', function() {
+            // 可替换为实际的拼音教学视频链接
             window.open('https://www.bilibili.com/video/BV1xx411X77o/', '_blank');
         });
 
-        // 拼音发音播放功能
-        function playAudio(pinyin) {
-            const synth = window.speechSynthesis;
-            const utterance = new SpeechSynthesisUtterance(pinyin);
-            utterance.lang = 'zh-CN';
-            synth.speak(utterance);
-        }
-
         // 拼音练习模块显示/隐藏
         const practiceBtn = document.getElementById('practiceBtn');
-        const practiceArea = do
+        const practiceArea = document.getElementById('practiceArea');
+        practiceBtn.addEventListener('click', function() {
+            practiceArea.style.display = practiceArea.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // 练习答案验证
+        function checkAnswer(inputId, correctAnswer) {
+            const input = document.getElementById(inputId);
+            const tips = document.getElementById('answerTips');
+            if (input.value.toLowerCase() === correctAnswer) {
+                tips.textContent = '✅ 回答正确！真棒～';
+                tips.style.color = '#32cd32';
+            } else {
+                tips.textContent = '❌ 答案不对，再试试吧！';
+                tips.style.color = '#ff4500';
+            }
+            input.value = '';
+        }
+
+        // 素材生成提示
+        const materialBtn = document.getElementById('materialBtn');
+        const materialTips = document.getElementById('materialTips');
+        materialBtn.addEventListener('click', function() {
+            materialTips.style.display = 'block';
+            setTimeout(() => {
+                materialTips.style.display = 'none';
+            }, 5000); // 5秒后隐藏提示
+        });
+    </script>
+</body>
+</html>
